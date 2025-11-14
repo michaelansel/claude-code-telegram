@@ -216,6 +216,8 @@ RATE_LIMIT_REQUESTS=100
 CLAUDE_TIMEOUT_SECONDS=600
 ```
 
+**⚠️ SECURITY WARNING:** Only use `DEVELOPMENT_MODE=true` on your local development machine. Never use it in production or on internet-accessible servers. This setting creates an authentication bypass that could allow unauthorized access if `ALLOWED_USERS` is accidentally cleared.
+
 ## Troubleshooting
 
 ### Common Setup Issues
@@ -315,12 +317,14 @@ tail -f logs/bot.log | grep -i cost
 
 ### Environment-specific settings
 
+**🔒 CRITICAL:** For production deployments, use these secure settings:
+
 ```bash
 # Production configuration
 ENVIRONMENT=production
 DEBUG=false
 LOG_LEVEL=INFO
-DEVELOPMENT_MODE=false
+DEVELOPMENT_MODE=false  # NEVER set to true in production!
 
 # Stricter rate limits
 RATE_LIMIT_REQUESTS=5
@@ -331,6 +335,17 @@ SESSION_TIMEOUT_HOURS=12
 ENABLE_TELEMETRY=true
 SENTRY_DSN=https://your-sentry-dsn@sentry.io/project
 ```
+
+**Production Security Checklist:**
+
+- ✅ `DEVELOPMENT_MODE=false` - Critical security setting
+- ✅ `ENVIRONMENT=production` - Enables production optimizations
+- ✅ `ALLOWED_USERS` properly configured with your Telegram user ID(s)
+- ✅ `.env` file NOT committed to git
+- ✅ Bot token is unique and not shared
+- ✅ `APPROVED_DIRECTORY` set to most restrictive path needed
+- ✅ Regular monitoring of `/status` command output
+- ✅ Audit logs reviewed periodically
 
 ### Database configuration
 

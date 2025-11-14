@@ -392,6 +392,35 @@ To get your Telegram user ID for the `ALLOWED_USERS` setting:
 2. It will reply with your user ID number
 3. Add this number to your `ALLOWED_USERS` setting
 
+### 🔒 Security Best Practices
+
+**CRITICAL: Production Settings**
+
+For production use, ensure these settings in your `.env` file:
+
+```bash
+# REQUIRED for production security
+ENVIRONMENT=production
+DEVELOPMENT_MODE=false
+DEBUG=false
+
+# Your specific user ID only
+ALLOWED_USERS=[your_telegram_user_id]
+
+# Never commit this file to git
+# Add .env to .gitignore
+```
+
+**⚠️ WARNING:** Do NOT run with `DEVELOPMENT_MODE=true` in production! This creates a dangerous authentication bypass that could allow unauthorized access if `ALLOWED_USERS` is accidentally cleared.
+
+**Additional Security Measures:**
+
+1. **Protect your bot token**: Never commit `.env` to git. Revoke and regenerate if exposed.
+2. **Verify .gitignore**: Ensure `.env` is listed in `.gitignore` before any commits
+3. **Restrict directory access**: Set `APPROVED_DIRECTORY` to the most restrictive path needed
+4. **Monitor usage**: Regularly check `/status` for unexpected activity
+5. **Review audit logs**: Check database for unauthorized access attempts
+
 ## 🔧 Troubleshooting
 
 ### Common Issues
